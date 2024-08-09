@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Box, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
 import MonacoEditor from '@monaco-editor/react';
 
-const CodeEditor = ({ onChange }) => {
+export default function CodeEditor({ onChange }) {
   const [language, setLanguage] = useState('python'); // sets default language as python
   // default class and function
   const [code, setCode] = useState(`class Solution(object):\n\tdef twoSum(self, nums, target):\n\t\t"""\n\t\t:type nums: List[int]\n\t\t:type target: int\n\t\t:rtype: List[int]\n\t\t"""`);
@@ -69,5 +69,3 @@ const CodeEditor = ({ onChange }) => {
     </Box>
   );
 };
-
-export default CodeEditor;
