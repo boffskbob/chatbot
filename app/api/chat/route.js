@@ -8,27 +8,24 @@ const systemPrompt = "You are a LeetCode assistant bot designed to help users im
 export async function POST(req) {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const data = await req.json()
-
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-
-    const completion = await openai.chat.completions.create({
-        messages: [{
-            role: 'system',
-            content: systemPrompt
-        }, ...data],
-        model: 'gpt-4o-mini',
-        stream: true,
-
-
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", systemInstruction: systemPrompt });
+    const chat = model.startChat({
+        history: [
+            {
+                role: 'user',
+                parts: [{ text: "Hi, I'm looking for help on a problem. Can you help me?" }]
+            },
+            ...data
+        ]
     })
+    const result = await chat.sendMessageStream(data[data.length - 1].parts[0].text);
 
     const stream = new ReadableStream({
         async start(controller) {
             const encoder = new TextEncoder()
             try {
-                for await (const chunk of completion) {
-                    const content = chunk.choices[0].delta.content
+                for await (const chunk of result.stream) {
+                    const content = chunk.text()
                     if (content) {
                         const text = encoder.encode(content)
                         controller.enqueue(text)
