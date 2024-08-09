@@ -1,4 +1,4 @@
-// components/ProblemDescription.js
+// hard-coded problem, meaning /problem always routes to the same problem
 import { Box, Typography, Chip } from '@mui/material';
 
 export default function ProblemDescription() {
