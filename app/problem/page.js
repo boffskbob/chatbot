@@ -5,7 +5,8 @@ import { Container, Button } from '@mui/material';
 import Navbar from '../../components/Navbar';
 import ProblemDesc from '../../components/ProblemDesc';
 import CodeWindow from '../../components/CodeEditor';
-import SidebarWindow from '../../components/SidebarWindow'
+import SidebarWindow from '../../components/SidebarWindow';
+import Chatbot from '../../components/Chatbot';
 
 export default function ProblemPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -41,8 +42,7 @@ export default function ProblemPage() {
         Stuck? Ask Prep! 🤖
       </Button>
       <SidebarWindow open={sidebarOpen} onClose={closeWindow}>
-        {/* This section can be populated with the customer support window refactored into its own component */}
-        <p>This is the sidebar window where the conversation will be</p>
+        <Chatbot/>
       </SidebarWindow>
     </>
   );

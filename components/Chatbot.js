@@ -3,11 +3,11 @@
 import { useState } from "react"
 import { Box, Button, Stack, TextField } from '@mui/material'
 
-export default function Home() {
+export default function Chatbot() {
   // list of messages
   const [messages, setMessages] = useState([{
-    role: 'assistant',
-    content: 'Hello, how can I help you today?'
+    role: 'model',
+    parts: [{ text: "What can I help you with?" }]
   }])
   // user input
   const [message, setMessage] = useState('')
@@ -16,8 +16,8 @@ export default function Home() {
     // add user message + blank assistant message to the end of messages list
     setMessages((messages) => [
       ...messages,
-      { role: 'user', content: message },
-      { role: 'assistant', content: '' }
+      { role: 'user', parts: [{ text: message }] },
+      { role: 'model', parts: [{ text: '' }] }
     ])
     setMessage('')
 
@@ -27,7 +27,7 @@ export default function Home() {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify([...messages, { role: 'user', content: message }])
+      body: JSON.stringify([...messages, { role: 'user', parts: [{ text: message }] }])
     }).then(res => {
       const reader = res.body.getReader()
       const decoder = new TextDecoder()
@@ -45,7 +45,7 @@ export default function Home() {
           return ([
             ...otherMessages, {
               ...lastMessage,
-              content: lastMessage.content + text
+              parts: [{ text: lastMessage.parts[0].text + text }]
             }
           ])
         })
@@ -55,19 +55,19 @@ export default function Home() {
 
   }
 
-  return <Box width="100vw" height="100vh" display='flex' justifyContent="center" alignItems="center">
-    <Stack direction='column' width='600px' height='700px' border='1px solid black' p={2} spacing={3}>
+  return (<Box display='flex' width="max-content" justifyContent="center" alignItems="center">
+    <Stack direction='column' width='600px' height='700px' p={2} spacing={3}>
       <Stack direction='column' spacing={2} flexGrow={1} overflow="auto" maxHeight="100%">
         {
           messages.map((message, index) => (
-            <Box key={index} display='flex' justifyContent={message.role === 'assistant' ? 'flex-start' : 'flex-end'}>
+            <Box key={index} display='flex' justifyContent={message.role === 'model' ? 'flex-start' : 'flex-end'}>
               <Box
-                bgcolor={message.role === 'assistant' ? 'primary.main' : 'secondary.main'}
+                bgcolor={message.role === 'model' ? 'primary.main' : 'secondary.main'}
                 color='white'
                 borderRadius={16}
                 p={3}
               >
-                {message.content}
+                {message.parts[0].text}
               </Box>
             </Box>
           ))
@@ -78,6 +78,6 @@ export default function Home() {
         <Button variant='contained' onClick={sendMessage}>Send</Button>
       </Stack>
     </Stack>
-
   </Box>
-}
+  );
+};

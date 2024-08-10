@@ -30,14 +30,16 @@ export default function SidebarWindow({ open, onClose, children }) {
         position: 'fixed',
         top: 0,
         right: 0,
-        width: '300px',
-        height: '100%',
         backgroundColor: '#f4f4f4',
         boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
         transform: open ? 'translateX(0)' : 'translateX(100%)',
         transition: 'transform 0.3s ease',
-        overflowY: 'auto',
+        overflow: 'visible',
         zIndex: 1200,
+        display: 'flex',
+        flexDirection: 'column',
+        height: 'auto',
+        width: 'auto'
       }}
     >
       <Box sx={{ padding: 2 }}>
