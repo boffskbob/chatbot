@@ -1,7 +1,6 @@
 'use client'
 
 import { Container, Box, Typography, Button, AppBar, Toolbar, Link } from '@mui/material';
-import { styled } from '@mui/system';
 import Navbar from '../components/Navbar'
 
 
