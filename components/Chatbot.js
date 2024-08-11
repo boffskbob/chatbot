@@ -55,9 +55,9 @@ export default function Chatbot() {
 
   }
 
-  return (<Box display='flex' width="max-content" justifyContent="center" alignItems="center">
-    <Stack direction='column' width='600px' height='700px' p={2} spacing={3}>
-      <Stack direction='column' spacing={2} flexGrow={1} overflow="auto" maxHeight="80%">
+  return (
+    <Stack direction='column' width='600px' height='700px' maxHeight='700px' p={2} spacing={3}>
+      <Stack direction='column' spacing={2} flexGrow={1} overflow="auto" maxHeight="100%">
         {
           messages.map((message, index) => (
             <Box key={index} display='flex' justifyContent={message.role === 'model' ? 'flex-start' : 'flex-end'}>
@@ -78,6 +78,5 @@ export default function Chatbot() {
         <Button variant='contained' onClick={sendMessage}>Send</Button>
       </Stack>
     </Stack>
-  </Box>
   );
 };

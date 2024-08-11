@@ -4,24 +4,23 @@ import { Box } from '@mui/material';
 export default function SidebarWindow({ open, onClose, children }) {
   const windowRef = useRef(null); // used to keep track of specific DOM components
 
-  // handles clicks outside the window
-  const clickOutside = (event) => {
-    if (windowRef.current && !windowRef.current.contains(event.target)) {    // makes sure windowRef points to the main Box and event.target is outside the sidebar (aka windowRef)
-      onClose();
-    }
-  };
-
   // add/remove event listener for detecting clicks outside the window
   useEffect(() => {
+    // handles clicks outside the window
+    const clickOutside = (event) => {
+      if (windowRef.current && !windowRef.current.contains(event.target)) {    // makes sure windowRef points to the main Box and event.target is outside the sidebar (aka windowRef)
+        onClose();
+      }
+    };
+    
     if (open) { // when the side window is open, listen for a click and check to see if it was outside the window
       document.addEventListener('mousedown', clickOutside);
-    } else {
-      document.removeEventListener('mousedown', clickOutside);
     }
+    
     return () => {
       document.removeEventListener('mousedown', clickOutside);
     };
-  }, [open]);
+  }, [open, onClose]);
 
   return (
     <Box
@@ -38,8 +37,7 @@ export default function SidebarWindow({ open, onClose, children }) {
         zIndex: 1200,
         display: 'flex',
         flexDirection: 'column',
-        maxHeight: 700,
-        height: 'auto',
+        maxHeight: 750,
         width: 'auto'
       }}
     >
