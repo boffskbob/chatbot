@@ -38,6 +38,7 @@ export default function SidebarWindow({ open, onClose, children }) {
         zIndex: 1200,
         display: 'flex',
         flexDirection: 'column',
+        maxHeight: 700,
         height: 'auto',
         width: 'auto'
       }}
