@@ -3,7 +3,6 @@
 import { Container, Box, Typography, Button, AppBar, Toolbar, Link } from '@mui/material';
 import Navbar from '../components/Navbar'
 
-
 export default function HomePage() {
   return (
     <>
@@ -25,15 +24,17 @@ export default function HomePage() {
         <Typography variant="h5" component="h2" sx={{ color: 'gray', mb: 4 }}>
           Your technical interview prep partner.
         </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          sx={{ borderRadius: '30px', textTransform: 'none', padding: '10px 30px' }}
-          // onClick={handleGetStarted}
-        >
-          Get Started →
-        </Button>
+        <Link href="/problem">
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            sx={{ borderRadius: '30px', textTransform: 'none', padding: '10px 30px' }}
+            // onClick={handleGetStarted}
+          >
+            Get Started →
+          </Button>
+        </Link>
     </Container>
     </>
   );
