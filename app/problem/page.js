@@ -34,7 +34,7 @@ export default function ProblemPage() {
         onClick={toggleWindow}
         sx={{
           position: 'absolute',
-          bottom: 16, 
+          bottom: 16,
           right: 16,
           borderRadius: 50,
         }}
@@ -42,7 +42,7 @@ export default function ProblemPage() {
         Stuck? Ask Prep! 🤖
       </Button>
       <SidebarWindow open={sidebarOpen} onClose={closeWindow}>
-        <Chatbot/>
+        <Chatbot />
       </SidebarWindow>
     </>
   );

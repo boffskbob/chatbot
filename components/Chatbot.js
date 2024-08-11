@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Box, Button, Stack, TextField } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 
 export default function Chatbot() {
+
   // list of messages
   const [messages, setMessages] = useState([{
     role: 'model',
@@ -12,6 +13,25 @@ export default function Chatbot() {
   }])
   // user input
   const [message, setMessage] = useState('')
+
+  const EllipsesAnimation = () => {
+    const [dots, setDots] = useState(' ');
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setDots(prevDots => (prevDots.length < 3 ? prevDots + '.' : ''));
+      }, 500);
+
+      // Cleanup interval on component unmount
+      return () => clearInterval(interval);
+    }, []);
+
+    return (
+      <div style={{ fontSize: '24px', fontWeight: 'bold' }}>
+        {dots}
+      </div>
+    );
+  };
 
   const sendMessage = async () => {
     // add user message + blank assistant message to the end of messages list
@@ -69,7 +89,7 @@ export default function Chatbot() {
                 borderRadius={16}
                 p={3}
               >
-                <ReactMarkdown>{message.parts[0].text}</ReactMarkdown>
+                {message.parts[0].text ? <ReactMarkdown>{message.parts[0].text}</ReactMarkdown> : <EllipsesAnimation />}
               </Box>
             </Box>
           ))

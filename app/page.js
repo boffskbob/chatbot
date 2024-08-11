@@ -4,18 +4,22 @@ import { Container, Box, Typography, Button, AppBar, Toolbar, Link } from '@mui/
 import Navbar from '../components/Navbar'
 
 export default function HomePage() {
+  const handleGetStarted = () => {
+    window.location.href = "/problem"
+  }
+
   return (
     <>
       <Navbar />
-      <Container 
+      <Container
         maxWidth="lg"
-        sx={{ 
+        sx={{
           textAlign: 'center',
           height: 'calc(100vh - 64px)',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          alignItems: 'center' 
+          alignItems: 'center'
         }}
       >
         <Typography variant="h1" component="h1" sx={{ fontWeight: 'bold', mb: 2 }}>
@@ -30,12 +34,12 @@ export default function HomePage() {
             color="primary"
             size="large"
             sx={{ borderRadius: '30px', textTransform: 'none', padding: '10px 30px' }}
-            // onClick={handleGetStarted}
+            onClick={handleGetStarted}
           >
             Get Started →
           </Button>
         </Link>
-    </Container>
+      </Container>
     </>
   );
 }
