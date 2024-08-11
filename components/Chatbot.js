@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Box, Button, Stack, TextField } from '@mui/material'
+import ReactMarkdown from 'react-markdown'
 
 export default function Chatbot() {
   // list of messages
@@ -61,13 +62,14 @@ export default function Chatbot() {
         {
           messages.map((message, index) => (
             <Box key={index} display='flex' justifyContent={message.role === 'model' ? 'flex-start' : 'flex-end'}>
+
               <Box
                 bgcolor={message.role === 'model' ? 'primary.main' : 'secondary.main'}
                 color='white'
                 borderRadius={16}
                 p={3}
               >
-                {message.parts[0].text}
+                <ReactMarkdown>{message.parts[0].text}</ReactMarkdown>
               </Box>
             </Box>
           ))
