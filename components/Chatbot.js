@@ -1,11 +1,17 @@
 'use client'
 
-import { useState, useEffect } from "react"
-import { Box, Button, Stack, TextField } from '@mui/material'
+import { useState, useEffect, useRef } from "react"
+import { Box, Button, Stack, TextField, Typography } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 
 export default function Chatbot() {
-
+  const getTime = () => {
+    const d = new Date();
+    const time = d.toLocaleTimeString().split(':');
+    const zone = d.toLocaleTimeString().split(' ')[1];
+    return time[0] + ':' + time[1] + ' ' + zone
+  }
+  const [time, setTime] = useState([getTime()])
   // list of messages
   const [messages, setMessages] = useState([{
     role: 'model',
@@ -14,12 +20,15 @@ export default function Chatbot() {
   // user input
   const [message, setMessage] = useState('')
 
+
+
+
   const EllipsesAnimation = () => {
     const [dots, setDots] = useState(' ');
 
     useEffect(() => {
       const interval = setInterval(() => {
-        setDots(prevDots => (prevDots.length < 3 ? prevDots + '.' : ''));
+        setDots(prevDots => (prevDots.length < 3 ? prevDots + '.' : '.'));
       }, 500);
 
       // Cleanup interval on component unmount
@@ -34,6 +43,7 @@ export default function Chatbot() {
   };
 
   const sendMessage = async () => {
+
     // add user message + blank assistant message to the end of messages list
     setMessages((messages) => [
       ...messages,
@@ -56,6 +66,8 @@ export default function Chatbot() {
       // read the response from the server
       return reader.read().then(function processText({ done, value }) {
         if (done) {
+          // update assistant timestamp
+          setTime(time => [...time, getTime()])
           return result
         }
         // else just keep updating state variables 
@@ -82,23 +94,29 @@ export default function Chatbot() {
         {
           messages.map((message, index) => (
             <Box key={index} display='flex' justifyContent={message.role === 'model' ? 'flex-start' : 'flex-end'}>
-
-              <Box
-                bgcolor={message.role === 'model' ? 'primary.main' : 'secondary.main'}
-                color='white'
-                borderRadius={16}
-                p={3}
-              >
-                {message.parts[0].text ? <ReactMarkdown>{message.parts[0].text}</ReactMarkdown> : <EllipsesAnimation />}
-              </Box>
+              <Stack direction={'column'}>
+                <Box
+                  bgcolor={message.role === 'model' ? 'primary.main' : 'secondary.main'}
+                  color='white'
+                  borderRadius={16}
+                  p={3}
+                >
+                  {message.parts[0].text ? <ReactMarkdown>{message.parts[0].text}</ReactMarkdown> : <EllipsesAnimation />}
+                </Box>
+                <Typography className={'timestamp-' + index} alignSelf={message.role === 'model' ? 'flex-start' : 'flex-end'} px={2} sx={{ display: 'block' }}>{time[index]}</Typography>
+              </Stack>
             </Box>
           ))
         }
       </Stack>
-      <Stack direction='row' spacing={2}>
+      <Stack direction='row' spacing={2} p={2}>
         <TextField label="Message" fullWidth value={message} onChange={(e) => setMessage(e.target.value)} />
-        <Button variant='contained' onClick={sendMessage}>Send</Button>
+        <Button variant='contained' onClick={() => {
+          setTime(time => [...time, getTime()])
+          sendMessage()
+        }
+        }>Send</Button>
       </Stack>
-    </Stack>
+    </Stack >
   );
 };
